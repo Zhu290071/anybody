@@ -1,0 +1,1817 @@
+AnyFolder EnvironmentModel =
+{
+  //================================================
+  // Global Reference
+  //================================================
+  AnyFixedRefFrame GlobalRef =
+  {
+    Origin = {0,0,0};
+    #include "drawcoorsystem.any"
+    AnyDrawRefFrame drw = {};
+  };
+    Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg =
+  {
+    
+    AnyRefNode Beibao =
+    {
+      sRel={-0.18,0.27,0};
+      // Human-side attachment points. These receive the equipment reactions.
+      AnyRefNode HumanNode1 ={sRel={-0.3,0.6,-0.3};};
+      AnyRefNode HumanNode2 ={sRel={0,0.6,-0.3};};
+      AnyRefNode HumanNode3 ={sRel={0.3,0.6,-0.3};};
+      
+      AnyDrawNode drw=
+      {
+        RGB={0,1,0};
+      };
+
+
+      
+    };
+    
+    AnyRefNode fangdanyi =
+    {
+      sRel={-0.0605,0.05,0.1735};
+      
+      ARel=RotMat(90*pi/180,y);
+      
+      AnyDrawSTL DrwSTL =
+      {
+        Visible = Off;
+        FileName="fangdanyi.stl";
+        RGB={0,0,0};
+      };
+      
+    };
+    
+    AnyRefNode StrapRight =
+    {
+      sRel={0.06,0.30,0.15};
+    };
+    
+    AnyRefNode StrapLeft =
+    {
+      sRel={0.06,0.30,-0.15};
+    };
+    
+  };
+    Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Clavicula =
+  {
+    AnyRefNode StrapRight =
+    {
+      sRel={0.09,0.03,-0.01};
+    };
+  };
+  
+  Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Clavicula =
+  {
+    AnyRefNode StrapLeft =
+    {
+      sRel={0.09,-0.03,-0.01};
+    };
+  };
+  
+  Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula =
+  {
+    AnyRefNode StrapRight =
+    {
+      sRel={-0.08,0.03,-0.01};
+    };
+  };
+  
+  Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula =
+  {
+    AnyRefNode StrapLeft =
+    {
+      sRel={-0.08,-0.03,-0.01};
+    };
+  };
+  
+  
+  
+  AnySeg Backpack =
+  {
+    // Load-bearing structural nodes. They belong to the equipment rigid body,
+    // rather than to the human thorax.
+    AnyRefNode Node21 ={sRel={-0.3,0.6,0};AnyDrawNode drw={RGB={0,1,0};};};
+    AnyRefNode Node22 ={sRel={0,0.6,0};AnyDrawNode drw={RGB={0,1,0};};};
+    AnyRefNode Node23 ={sRel={0.3,0.6,0};AnyDrawNode drw={RGB={0,1,0};};};
+    AnyRefNode Node24 ={sRel={0,0.9,0};AnyDrawNode drw={RGB={0,1,0};};};
+    AnyRefNode Node1 ={sRel={-0.3,0.6,-0.3};AnyDrawNode drw={RGB={1,0,0};};};
+    AnyRefNode Node2 ={sRel={0,0.6,-0.3};AnyDrawNode drw={RGB={1,0,0};};};
+    AnyRefNode Node3 ={sRel={0.3,0.6,-0.3};AnyDrawNode drw={RGB={1,0,0};};};
+    AnyRefNode Node4 ={sRel={-0.3,0.6,0.3};AnyDrawNode drw={RGB={1,0,0};};};
+    AnyRefNode Node5 ={sRel={0,0.6,0.3};AnyDrawNode drw={RGB={1,0,0};};};
+    AnyRefNode Node6 ={sRel={0.3,0.6,0.3};AnyDrawNode drw={RGB={1,0,0};};};
+    AnyRefNode Node7 ={sRel={0,0.8,0.2};AnyDrawNode drw={RGB={1,1,0};};};
+  AnyRefNode BackpackShoulder001 =
+  {
+    sRel = {-0.30, 0.60, -0.15};
+    AnyDrawNode drw = {RGB = {1,0,1};};
+  };
+
+    r0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.r0+{-0.18,0.27,0};
+    
+    Mass=0;
+    
+    Jii={1.167,0.758,1.458};
+    
+    AnyDrawSeg beibao =
+    {
+      Opacity=0.5;
+      RGB={0,1,0};
+    };
+    
+    AnyRefNode youxia =
+    {
+      sRel={0.11,-0.145,0.14};
+    };
+    
+    AnyRefNode youshang =
+    {
+      sRel={0.08,0.145,0.1};
+    };
+    
+    AnyRefNode zuoxia =
+    {
+      sRel={0.11,-0.145,-0.14};
+    };
+    
+    AnyRefNode zuoshang =
+    {
+      sRel={0.08,0.145,-0.1};
+    };
+    AnyRefNode beibaoRef = 
+    {
+      sRel = {0, 0, 0};    
+    };  
+    
+  };
+  
+  AnyKinRotational BackpackRotFix =
+  {
+    AnyRefFrame &ref1 = .Backpack;
+    
+    AnyRefFrame &ref2 =
+    Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg;
+    
+    Type = RotAxesAngles;
+  };
+  
+  
+  AnyKinEqSimpleDriver BackpackRotFixDriver =
+  {
+    AnyKinRotational &Rot = .BackpackRotFix;
+    
+    DriverPos = {0,0,0};
+    
+    DriverVel = {0,0,0};
+    
+    Reaction.Type = {On,On,On};
+  };
+  
+  
+  AnyKinPLine BackpackExtraFix =
+  {
+    AnyRefFrame &ref1 = .Backpack.youxia;
+    
+    AnyRefFrame &ref2 =
+    Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.Beibao.HumanNode1;
+  };
+  
+  
+  AnyKinPLine BackpackFix1 =
+  {
+    AnyRefFrame &ref1 = .Backpack.youshang;
+    
+    AnyRefFrame &ref2 =
+    Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.Beibao.HumanNode2;
+  };
+  //
+  //
+  AnyKinPLine BackpackFix2 =
+  {
+    AnyRefFrame &ref1 = .Backpack.zuoshang;
+    
+    AnyRefFrame &ref2 =
+    Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.Beibao.HumanNode3;
+  };
+  
+  
+  AnyKinEqSimpleDriver BackpackExtraFixDriver =
+  {
+    AnyKinPLine &Fix = .BackpackExtraFix;
+    
+    DriverPos = {0.957};
+    DriverVel = {0};
+    
+    Reaction.Type = {On};
+  };
+  
+  
+  AnyKinEqSimpleDriver BackpackFix1Driver =
+  {
+    AnyKinPLine &Fix = .BackpackFix1;
+    
+    DriverPos = {0.611};
+    DriverVel = {0};
+    
+    Reaction.Type = {On};
+  };
+  //
+  //
+  AnyKinEqSimpleDriver BackpackFix2Driver =
+  {
+    AnyKinPLine &Fix = .BackpackFix2;
+    
+    DriverPos = {0.544};
+    DriverVel = {0};
+    
+    Reaction.Type = {On};
+  };
+  //aircraft lianjie
+  
+  AnyKinPLine Rod22_2 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node22;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node2;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod22_5 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node22;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node5;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod22_21 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node22;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node21;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod22_23 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node22;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node23;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod21_1 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node21;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node1;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod21_4 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node21;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node4;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod23_3 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node23;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node3;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod23_6 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node23;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node6;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod22_24 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node22;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node24;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+  
+  AnyKinPLine Rod24_7 =
+  {
+    AnyRefFrame &p1=Main.Model.EnvironmentModel.Backpack.Node24;
+    AnyRefFrame &p2=Main.Model.EnvironmentModel.Backpack.Node7;
+    AnyDrawPLine drw={Thickness=0.03;RGB={0.7,0.7,0.7};};
+  };
+
+  
+  
+  //================================================
+  // Load-bearing connection between backpack and shoulder exoskeleton
+  //================================================
+  AnyKinLinear BackpackToShoulder001 =
+  {
+    AnyRefFrame &p1 = .Backpack.BackpackShoulder001;
+    AnyRefFrame &p2 = .ExoskeletonFrame.jianbang001;
+  };
+
+  AnyKinEqSimpleDriver BackpackToShoulder001Driver =
+  {
+    AnyKinLinear &Kin = .BackpackToShoulder001;
+    DriverPos = {0,0,0};
+    DriverVel = {0,0,0};
+    Reaction.Type = {On,On,On};
+  };
+
+  //================================================
+  // Single rigid exoskeleton frame
+  //================================================ 
+ 
+  
+  AnySeg ExoskeletonFrame =
+  {
+    //--------------------------------
+    // Mass properties
+    //--------------------------------
+    r0 = {0,0,0};
+    Axes0 = {{1,0,0},{0,1,0},{0,0,1}};
+    Mass = 8;
+    Jii =
+    {1.94183217, 0.22263391,1.80214910};
+    sCoM ={0.00545381,0.77733007,-0.00305509};
+    
+    //================================================
+    // Shoulder nodes
+    //================================================
+    AnyRefNode jianbang001 ={sRel = {-0.06263784+0.1-0.1,1.489529+0.15,-0.1359334};
+//      AnyDrawNode jianbang001={RGB = {0, 0, 1};
+//        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    AnyRefNode jianbang002 ={sRel = {-0.06263784+0.1-0.1,1.489529+0.15,0.1359334};
+//      AnyDrawNode jianbang002={RGB = {0, 0, 1};
+//        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    AnyRefNode jianbang003 ={sRel = {0.06713768+0.1,1.450808+0.15,0.07144323};
+//      AnyDrawNode jianbang003={RGB = {0, 0, 1};
+//        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    AnyRefNode jianbang004 ={sRel = {0.06713768+0.1,1.450808+0.15,-0.07144323};
+//      AnyDrawNode jianbang004={RGB = {0, 0, 1};
+//        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    //================================================
+    // Waist nodes
+    //================================================
+    AnyRefNode yaobu001 ={sRel = {-0.08784522+0.1,1.059259+0.15,0.11};
+//      AnyDrawNode yaobu001={RGB = {0, 0, 1};
+//        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    AnyRefNode yaobu002 ={sRel =  {-0.08784522+0.1,1.059259+0.15,-0.11};
+//      AnyDrawNode yaobu002={RGB = {0, 0, 1};
+//        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    AnyRefNode yaobu003 ={sRel = {0.1321537+0.1,1.059938+0.15,0.11};
+//      AnyDrawNode yaobu003={RGB = {0, 0, 1};
+//        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    AnyRefNode yaobu004 ={sRel = {0.1321537+0.1,1.059938+0.15,-0.11};
+//      AnyDrawNode yaobu004={RGB = {0, 0, 1};
+//        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+
+    //================================================
+    // Thigh nodes
+    //================================================
+    
+    
+    AnyRefNode datui001 ={sRel = {0.02006414+0.1,0.6816031+0.15,0.1734666};
+      AnyDrawNode datui001={RGB = {0, 0, 1};
+        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    AnyRefNode datui002 ={sRel = {0.01168087+0.1,0.6829792+0.15,-0.1787417};
+          AnyDrawNode datui002={RGB = {0, 0, 1};
+        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    //================================================
+    // Shank nodes
+    //================================================
+    AnyRefNode xiaotui001 ={sRel = {-0.02472852+0.1,0.282198+0.15,0.1779907};
+      AnyDrawNode xiaotui001={RGB = {0, 0, 1};
+        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+    AnyRefNode xiaotui002 ={sRel = {-0.01401921+0.1,0.2833687+0.15,-0.1948412};
+      AnyDrawNode xiaotui002={RGB = {0, 0, 1};
+        ScaleXYZ = {0.01,0.01,0.01};};
+    };
+
+    //================================================
+    // Foot nodes
+    //================================================
+    AnyRefNode foot001 ={sRel = {-0.02472852+0.1,0+0.15,0.1779907};};
+    AnyRefNode foot002 ={sRel = {-0.01401921+0.1,0+0.15,-0.1948412};};
+    //================================================
+    // Waist reference frame
+    //================================================
+    AnyRefNode WaistFrame ={sRel ={0.02215424, 1.0595985,0};};
+    //================================================
+    // Visualization
+    //================================================
+    // Shoulder rectangle
+    AnyDrawLine Shoulder001 ={
+      p0=.jianbang001.r;
+      p1=.jianbang004.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine Shoulder002 =
+    {
+      p0=.jianbang004.r;
+      p1=.jianbang003.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine Shoulder003 =
+    {
+      p0=.jianbang003.r;
+      p1=.jianbang002.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine Shoulder004 =
+    {
+      p0=.jianbang002.r;
+      p1=.jianbang001.r;
+      Line.Thickness=0.008;
+    };
+    
+    
+    
+    // Waist rectangle
+    AnyDrawLine Waist001 ={
+      p0=.yaobu001.r;
+      p1=.yaobu002.r;
+      Line.Thickness=0.008;
+    };
+    
+    
+    AnyDrawLine Waist003 =
+    {
+      p0=.yaobu004.r;
+      p1=.yaobu003.r;
+      Line.Thickness=0.008;
+    };
+    
+    // Shoulder-waist
+    AnyDrawLine ShoulderWaist001 =
+    {
+      p0=.jianbang001.r;
+      p1=.yaobu002.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine ShoulderWaist002 =
+    {
+      p0=.jianbang002.r;
+      p1=.yaobu001.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine ShoulderWaist003 =
+    {
+      p0=.jianbang003.r;
+      p1=.yaobu003.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine ShoulderWaist004 =
+    {
+      p0=.jianbang004.r;
+      p1=.yaobu004.r;
+      Line.Thickness=0.008;
+    };
+    // Waist-thigh
+    
+    AnyDrawLine WaistThigh001 =
+    {
+      p0=.yaobu001.r;
+      p1=.datui001.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine WaistThigh002 =
+    {
+      p0=.yaobu002.r;
+      p1=.datui002.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine WaistThigh003 =
+    {
+      p0=.yaobu003.r;
+      p1=.datui001.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine WaistThigh004 =
+    {
+      p0=.yaobu004.r;
+      p1=.datui002.r;
+      Line.Thickness=0.008;
+    };
+    // Leg
+    
+    AnyDrawLine Leg001 =
+    {
+      p0=.datui001.r;
+      p1=.xiaotui001.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine Leg002 =
+    {
+      p0=.datui002.r;
+      p1=.xiaotui002.r;
+      Line.Thickness=0.008;
+    };
+    // Shank-foot
+    
+    AnyDrawLine ShankFoot001 =
+    {
+      p0=.xiaotui001.r;
+      p1=.foot001.r;
+      Line.Thickness=0.008;
+    };
+    
+    AnyDrawLine ShankFoot002 =
+    {
+      p0=.xiaotui002.r;
+      p1=.foot002.r;
+      Line.Thickness=0.008;
+    };
+    
+  };
+  
+  //================================================
+  // Exoskeleton-human connection
+  //================================================
+  AnyKinEqSimpleDriver ExoWaistDriver =
+  {
+    AnyKinLinear WaistLinear =
+    {
+      AnyRefFrame &Human =Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.PelvisSeg;
+      AnyRefFrame &Exo =..ExoskeletonFrame.WaistFrame;
+    };
+    
+    AnyKinRotational WaistRotation =
+    {Type = RotAxesAngles;
+      AnyRefFrame &Human =Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.PelvisSeg;
+      AnyRefFrame &Exo =..ExoskeletonFrame.WaistFrame;
+      
+    };
+    DriverPos =
+    {
+      0,0,0,
+      0,0,0
+    };
+    DriverVel =
+    {
+      0,0,0,
+      0,0,0
+    };
+  };
+  AnyFolder jian0={
+    Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Clavicula={
+      AnyRefNode jianbang0={sRel = {0, 0.05, 0.15};
+        AnyDrawNode jianbangdian={RGB = {0, 1, 0};};
+      };
+    };
+  };
+      AnyFolder jian1=
+      {
+        Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Clavicula    =
+        {
+          AnyRefNode jianbang1=
+          {
+            sRel = {(0-0.2)/2, 0.05, 0.15};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode jianbangdian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+      };
+      
+      AnyFolder jian2=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Clavicula=
+        {
+          AnyRefNode jianbang2=
+          {
+            sRel = {0, -0.05, 0.15};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode jianbangdian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+      };
+      
+      AnyFolder jian3=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Clavicula=
+        {
+          AnyRefNode jianbang3=
+          {
+            sRel = {(0-0.2)/2, -0.05, 0.15};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode jianbangdian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      
+      AnyFolder jian5=
+      {
+        Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Clavicula    =
+        {
+          AnyRefNode jianbang5=
+          {
+            sRel = {-0.2, 0.05, 0.15};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode jianbangdian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      
+      AnyFolder jian6=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Clavicula=
+        {
+          AnyRefNode jianbang6=
+          {
+            sRel = {-0.2, -0.05, 0.15};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode jianbangdian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      
+      //yao
+      AnyFolder yao1=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L5Seg=
+        {
+          AnyRefNode yaobu1=
+          {
+            //        sRel = {-0.05, Main.Model.Y, 0.1};
+            sRel = {0.03, 0.067, 0.11};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      
+      AnyFolder yao2=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L5Seg=
+        {
+          AnyRefNode yaobu2=
+          {
+            //        sRel = {-0.05, Main.Model.Y, 0.05};
+            sRel = {0.08, 0.067, 0.11};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder yao3=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L5Seg=
+        {
+          AnyRefNode yaobu3=
+          {
+            //        sRel = {-0.05, Main.Model.Y, -0.05};
+            sRel = {0.12, 0.067, 0.08};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder yao4=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L5Seg=
+        {
+          AnyRefNode yaobu4=
+          {
+            //        sRel = {-0.05, Main.Model.Y, -0.1};
+            sRel = {0.14, 0.067, 0.03};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      AnyFolder yao5=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L1Seg=
+        {
+          AnyRefNode yaobu5=
+          {
+            //         sRel = {-0.05, Main.Model.Y+0.15, -0.1};
+            sRel = {0.14, 0.067, -0.03};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      
+      AnyFolder yao6=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L1Seg=
+        {
+          AnyRefNode yaobu6=
+          {
+            //        sRel = {-0.05, Main.Model.Y+0.15, -0.05};
+            sRel = {0.12, 0.067, -0.08};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      AnyFolder yao7=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L1Seg=
+        {
+          AnyRefNode yaobu7=
+          {
+            //        sRel = {-0.05, Main.Model.Y+0.15, 0.05};
+            sRel = {0.08, 0.067, -0.11};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      AnyFolder yao8=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L1Seg=
+        {
+          AnyRefNode yaobu8=
+          {
+            //        sRel = {-0.05, Main.Model.Y+0.15, 0.1};
+            sRel = {0.03, 0.067, -0.11};
+            
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian= 
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      
+      
+      AnyFolder yao9=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L3Seg=
+        {
+          AnyRefNode yaobu9=
+          {
+            //        sRel = {-0.05, Main.Model.Y+0.07, 0.1};
+            sRel = {-0.01, 0.067, -0.08};
+            
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian= 
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder yao10=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L3Seg=
+        {
+          AnyRefNode yaobu10=
+          {
+            //        sRel = {-0.05, Main.Model.Y+0.07, 0.05};
+            sRel = {-0.02, 0.067, -0.03};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder yao11=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L3Seg=
+        {
+          AnyRefNode yaobu11=
+          {
+            //        sRel = {-0.05, Main.Model.Y+0.07, -0.05};
+            sRel = {-0.02, 0.067, 0.025};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder yao12=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L3Seg=
+        {
+          AnyRefNode yaobu12=
+          {
+            //        sRel = {-0.05, Main.Model.Y+0.07, -0.1};
+            sRel = {-0.01, 0.067, 0.08};
+            
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian= 
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      //bei
+      AnyFolder bei1=
+      {
+        Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu1=
+          {
+            sRel = {-0.1, -0.06, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      
+      AnyFolder bei2=
+      {
+        Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu2=
+          {
+            sRel = {-0.16, -0.06, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder bei3=
+      {
+        Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu3=
+          {
+            sRel = {-0.15, -0.21, 0};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder bei4=
+      {
+        Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu4=
+          {
+            sRel = {-0.20, -0.21, 0.0};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder bei5=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu5=
+          {
+            sRel = {-0.1, 0.06, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder bei6=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu6=
+          {
+            sRel = {-0.16, 0.06, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      AnyFolder bei7=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu7=
+          {
+            sRel = {-0.15, 0.21, -0.01};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder bei8=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu8=
+          {
+            sRel = {-0.20, 0.21, -0.01};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      
+      AnyFolder bei9=
+      {
+        Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu9=
+          {
+            sRel = {-0.12, -0.12, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      AnyFolder bei10=
+      {
+        Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu10=
+          {
+            sRel = {-0.18, -0.12, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      
+      AnyFolder bei11=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu11=
+          {
+            sRel = {-0.18, 0.12, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+        
+      };
+      
+      AnyFolder bei12=
+      {
+        Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula=
+        {
+          AnyRefNode beibu12=
+          {
+            sRel = {-0.12, 0.12, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xianshidian=
+            {
+              RGB = {0, 1, 0};
+            };
+            
+          };
+          
+        };
+        
+      };
+      //xiong
+      AnyFolder xiong1=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu1=
+          {
+            sRel = {0.15, 0.35, 0.1};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      
+      AnyFolder xiong2=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu2=
+          {
+            sRel = {0.15, 0.29923, 0.1};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      
+      AnyFolder xiong3=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu3=
+          {
+            sRel = {0.15, 0.24846, 0.1};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      AnyFolder xiong4=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu4=
+          {
+            sRel = {0.15, 0.35, 0.05};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      
+      AnyFolder xiong5=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu5=
+          {
+            sRel = {0.15, 0.29923, 0.05};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      AnyFolder xiong6=  {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg= {
+          AnyRefNode xiongbu6=  {
+            sRel = {0.15, 0.24846, 0.05};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=  {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      AnyFolder xiong7=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu7=
+          {
+            sRel = {0.15, 0.35, -0.05};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      
+      AnyFolder xiong8=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu8=
+          {
+            sRel = {0.15, 0.29923, -0.05};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      
+      AnyFolder xiong9=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu9=
+          {
+            sRel = {0.15, 0.24846, -0.05};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      AnyFolder xiong10=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu10=
+          {
+            sRel = {0.15, 0.35, -0.1};
+            AnyDrawNode xiongbudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+        
+        
+      };
+      
+      AnyFolder xiong11=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu11=
+          {
+            sRel = {0.15, 0.29923, -0.1};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=  {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      AnyFolder xiong12=
+      {
+        Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg=
+        {
+          AnyRefNode xiongbu12=
+          {
+            sRel = {0.15, 0.24846, -0.1};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode xiongbudian=  {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+        
+      };
+      
+      //datui
+      AnyFolder tui1=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Thigh    =
+        {
+          AnyRefNode datui1=
+          {
+            sRel = {0.01, -0.2, 0.08};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youtuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      AnyFolder tui2=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Thigh    =
+        {
+          AnyRefNode datui2=
+          {
+            sRel = {0.08, -0.2, 0.05};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youtuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      AnyFolder tui3=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Thigh    =
+        {
+          AnyRefNode datui3=
+          {
+            sRel = {0.08, -0.2, -0.05};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youtuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      AnyFolder tui4=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Thigh    =
+        {
+          AnyRefNode datui4=
+          {
+            sRel = {-0.04, -0.2, -0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youtuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      
+      
+      AnyFolder tui5=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Thigh    =
+        {
+          AnyRefNode datui5=
+          {
+            sRel = {0.08, -0.2, 0.04};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      AnyFolder tui6=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Thigh    =
+        {
+          AnyRefNode datui6=
+          {
+            sRel = {0.08, -0.2, -0.06};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      AnyFolder tui7=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Thigh    =
+        {
+          AnyRefNode datui7=
+          {
+            sRel = {0.00, -0.2, -0.08};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      AnyFolder tui8=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Thigh    =
+        {
+          AnyRefNode datui8=
+          {
+            sRel = {-0.04, -0.2, 0.04};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      //xiaotui
+      AnyFolder xiaotui1=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Shank    =
+        {
+          AnyRefNode xiaotui1=
+          {
+            sRel = {0.02, -0.6, 0.04};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youxiaotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      AnyFolder xiaotui2=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Shank    =
+        {
+          AnyRefNode xiaotui2=
+          {
+            sRel = {0.10, -0.6, 0.06};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youxiaotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      AnyFolder xiaotui3=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Shank    =
+        {
+          AnyRefNode xiaotui3=
+          {
+            sRel = {0.08, -0.6, -0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youxiaotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      AnyFolder xiaotui4=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Shank    =
+        {
+          AnyRefNode xiaotui4=
+          {
+            sRel = {-0.02, -0.6, -0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youxiaotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      AnyFolder xiaotui5=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Shank    =
+        {
+          AnyRefNode xiaotui5=
+          {
+            sRel = {0.08, -0.6, 0.02};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuoxiaotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      AnyFolder xiaotui6=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Shank    =
+        {
+          AnyRefNode xiaotui6=
+          {
+            sRel = {0.10, -0.6, -0.06};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuoxiaotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      
+      
+      AnyFolder xiaotui7=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Shank    =
+        {
+          AnyRefNode xiaotui7=
+          {
+            sRel = {0.02, -0.6, -0.06};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuoxiaotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      
+      AnyFolder xiaotui8=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Shank    =
+        {
+          AnyRefNode xiaotui8=
+          {
+            sRel = {-0.02, -0.6, 0.04};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuoxiaotuidian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      //zu
+      AnyFolder zu1=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Foot    =
+        {
+          AnyRefNode zu1=
+          {
+            sRel = {0.14, -0.88, 0.07};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youzudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      AnyFolder zu2=
+      {
+        Main.HumanModel.BodyModel.Right.Leg.Seg.Foot    =
+        {
+          AnyRefNode zu2=
+          {
+            sRel = {0.06, -0.88, 0.06};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode youzudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      AnyFolder zu3=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Foot    =
+        {
+          AnyRefNode zu3=
+          {
+            sRel = {0.135, -0.885, -0.068};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuozudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+      AnyFolder zu4=
+      {
+        Main.HumanModel.BodyModel.Left.Leg.Seg.Foot    =
+        {
+          AnyRefNode zu4=
+          {
+            sRel = {0.06, -0.885, -0.068};
+            //ARel = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            AnyDrawNode zuozudian=
+            {
+              RGB = {0, 1, 0};
+            };
+          };
+        };
+      };
+  //F
+  
+  //==============================
+  // Loads are transmitted through equipment-aircraft and
+  // equipment-human connection constraints.
+  // Structural nodes have no independent external loads.
+  //==============================
+  // jian
+  //==============================
+  AnyForce3D jian0_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Clavicula.jianbang0;F={0,-1.86857*0.3,0};};
+  AnyForce3D jian1_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Clavicula.jianbang1;F={0,-1.86857*0.3,0};};
+  AnyForce3D jian2_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Clavicula.jianbang2;F={0,-1.86857*0.3,0};};
+  AnyForce3D jian3_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Clavicula.jianbang3;F={0,-1.86857*0.3,0};};
+  AnyForce3D jian5_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Clavicula.jianbang5;F={0,-1.86857*0.3,0};};
+  AnyForce3D jian6_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Clavicula.jianbang6;F={0,-1.86857*0.3,0};};
+  //==============================
+  // xiong
+  //==============================
+  AnyForce3D xiong1_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu1;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong2_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu2;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong3_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu3;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong4_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu4;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong5_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu5;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong6_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu6;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong7_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu7;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong8_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu8;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong9_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu9;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong10_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu10;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong11_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu11;F={0,-1.86857*0.3,0};};
+  AnyForce3D xiong12_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsThorax.ThoraxSeg.xiongbu12;F={0,-1.86857*0.3,0};};
+  //==============================
+  // bei
+  //==============================
+  AnyForce3D bei1_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula.beibu1;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei2_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula.beibu2;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei3_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula.beibu3;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei4_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula.beibu4;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei5_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula.beibu5;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei6_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula.beibu6;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei7_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula.beibu7;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei8_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula.beibu8;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei9_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula.beibu9;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei10_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.ShoulderArm.Seg.Scapula.beibu10;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei11_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula.beibu11;F={0,-1.86857*0.3,0};};
+  AnyForce3D bei12_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.ShoulderArm.Seg.Scapula.beibu12;F={0,-1.86857*0.3,0};};
+  
+  //==============================
+  // yao
+  //==============================
+  AnyForce3D  yao1_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L5Seg.yaobu1;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao2_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L5Seg.yaobu2;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao3_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L5Seg.yaobu3;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao4_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L5Seg.yaobu4;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao5_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L1Seg.yaobu5;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao6_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L1Seg.yaobu6;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao7_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L1Seg.yaobu7;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao8_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L1Seg.yaobu8;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao9_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L3Seg.yaobu9;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao10_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L3Seg.yaobu10;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao11_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L3Seg.yaobu11;F={0,-3.40138*0.3,0};};
+  AnyForce3D yao12_Load ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Trunk.SegmentsLumbar.L3Seg.yaobu12;F={0,-3.40138*0.3,0};};
+  
+  //==============================
+  // datui
+  //==============================
+  AnyForce3D datui1_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Thigh.datui1;F={0,-1.53281*0.3,0};};
+  AnyForce3D datui2_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Thigh.datui2;F={0,-1.53281*0.3,0};};
+  AnyForce3D datui3_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Thigh.datui3;F={0,-1.53281*0.3,0};};
+  AnyForce3D datui4_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Thigh.datui4;F={0,-1.53281*0.3,0};};
+  AnyForce3D datui5_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Thigh.datui5;F={0,-1.53281*0.3,0};};
+  AnyForce3D datui6_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Thigh.datui6;F={0,-1.53281*0.3,0};};
+  AnyForce3D datui7_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Thigh.datui7;F={0,-1.53281*0.3,0};};
+  AnyForce3D datui8_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Thigh.datui8;F={0,-1.53281*0.3,0};};
+  //==============================
+  // xiaotui
+  //==============================
+  AnyForce3D xiaotui1_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Shank.xiaotui1;F={0,-1.53281*0.3,0};};
+  AnyForce3D xiaotui2_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Shank.xiaotui2;F={0,-1.53281*0.3,0};};
+  AnyForce3D xiaotui3_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Shank.xiaotui3;F={0,-1.53281*0.3,0};};
+  AnyForce3D xiaotui4_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Shank.xiaotui4;F={0,-1.53281*0.3,0};};
+  AnyForce3D xiaotui5_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Shank.xiaotui5;F={0,-1.53281*0.3,0};};
+  AnyForce3D xiaotui6_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Shank.xiaotui6;F={0,-1.53281*0.3,0};};
+  AnyForce3D xiaotui7_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Shank.xiaotui7;F={0,-1.53281*0.3,0};};
+  AnyForce3D xiaotui8_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Shank.xiaotui8;F={0,-1.53281*0.3,0};};
+  //==============================
+  // zu
+  //==============================
+  AnyForce3D zu1_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Foot.zu1;F={0,-1.53281*0.3,0};};
+  AnyForce3D zu2_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Right.Leg.Seg.Foot.zu2;F={0,-1.53281*0.3,0};};
+  AnyForce3D zu3_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Foot.zu3;F={0,-1.53281*0.3,0};};
+  AnyForce3D zu4_Load  ={AnyRefFrame &ref0=Main.HumanModel.BodyModel.Left.Leg.Seg.Foot.zu4;F={0,-1.53281*0.3,0};};
+
+};
+AnyFolder MyOutput =
+{
+
+//====================================================
+// Muscle Activity
+//====================================================
+
+AnyVar OEC7_RS_Activity =
+Main.HumanModel.BodyModel.Trunk.MusclesSpineRight.ObliquusExternus.OEC7_RS.Activity;
+
+AnyVar OICI_RS3_Activity =
+Main.HumanModel.BodyModel.Trunk.MusclesSpineRight.ObliquusInternus.OICI_RS3.Activity;
+
+
+AnyVar Trapezius_Clavicular_5_Activity =
+Main.HumanModel.BodyModel.Left.ShoulderArm.Mus.trapezius_clavicular_part_5.Activity;
+
+
+AnyVar LatissimusDorsi_3_Activity =
+Main.HumanModel.BodyModel.Right.ShoulderArm.Mus.latissimus_dorsi_3.Activity;
+
+
+AnyVar Supraspinatus_4_Activity =
+Main.HumanModel.BodyModel.Left.ShoulderArm.Mus.supraspinatus_4.Activity;
+
+
+AnyVar RectusAbdominis_Activity =
+Main.HumanModel.BodyModel.Trunk.MusclesSpine.RectusAbdominis.RA.Activity;
+
+
+AnyVar Multifidi_L5S_Activity =
+Main.HumanModel.BodyModel.Trunk.MusclesSpineLeft.Multifidi.MFtsL5Sacrum.Activity;
+
+
+AnyVar PsoasMajor_L3_Activity =
+Main.HumanModel.BodyModel.Trunk.MusclesSpineRight.PsoasMajor.PML3I_TM.Activity;
+
+
+//====================================================
+// L5-Sacrum Joint Reaction Force
+//====================================================
+
+//AnyVar L5Sacrum_Compression_Force =
+//Main.Study.Output.Model.HumanModel.Trunk.JointReactionForce.L5SacrumProximoDistalForce;
+//
+//
+//AnyVar L5Sacrum_AP_Force =
+//Main.Study.Output.Model.HumanModel.Trunk.JointReactionForce.L5SacrumAnteroPosteriorForce;
+//
+//
+};
